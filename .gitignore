@@ -1,0 +1,10 @@
+/.idea/*
+*.pyc
+.envs
+.env
+
+
+
+db_data/
+
+docker-com*

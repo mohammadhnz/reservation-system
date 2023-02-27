@@ -1,0 +1,14 @@
+django~=4.1.7
+ipython
+djangorestframework
+django-filter
+psycopg2-binary
+django-cors-headers
+drf-writable-nested
+uvicorn
+gunicorn
+django-request-logging
+django-entangled
+python-json-logger~=2.0
+python-decouple==3.7
+sentry-sdk~=1.5.1

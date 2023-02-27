@@ -1,0 +1,4 @@
+# skip B101 (assert_used test) on test files
+assert_used:
+  skips: ['**/tests/**']
+skips: ['B311']

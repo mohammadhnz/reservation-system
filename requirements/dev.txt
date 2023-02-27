@@ -1,0 +1,9 @@
+-r base.txt
+factory-boy
+pre-commit==2.15.0
+pytest
+pytest-cov
+pytest-django
+pytest-mock
+freezegun==1.1.0
+parameterized~=0.8
