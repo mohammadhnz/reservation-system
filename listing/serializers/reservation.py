@@ -36,7 +36,7 @@ class ReservationCreateUpdateSerializer(serializers.ModelSerializer):
         check_in = attrs.get("check_in")
         check_out = attrs.get("check_out")
 
-        reservations = reservation_repository.get_rooms_reservations_in_time_range(room_ids, check_in, check_out)
+        reservations = reservation_repository.get_reservations_by_room_id(room_ids, check_in, check_out)
 
         if self.instance and reservations.exclude(id=self.instance.id).count() > 0:
             raise ValidationError("all rooms are not available.")

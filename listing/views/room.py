@@ -15,8 +15,10 @@ class RoomViewSet(viewsets.ModelViewSet):
 
 class AvailableRoomsAPIView(APIView):
     def get(self, request, *args, **kwargs):
-        serializer = room_serializers.RoomAvailabilitySerializer(data=request.query_params.dict())
-        if not serializer.is_valid():
+        serializer = room_serializers.RoomAvailabilitySerializer(
+            data={**request.query_params.dict(), "room_ids": request.query_params.getlist("room_ids")}
+        )
+        if not serializer.is_valid(raise_exception=True):
             return Response("query params are not valid", status=400)
         available_rooms_ids = rooms_availability.get_available_room_ids(**serializer.validated_data)
         return Response({"available room ids": available_rooms_ids}, status=status.HTTP_200_OK)

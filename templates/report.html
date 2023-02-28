@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Reservations Report</h1>
+{% for room in data %}
+<h2>Room Number {{room.id}} Reservations:</h2>
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Check In</th>
+        <th>Check Out</th>
+    </tr>
+    {% for reservation in room.reservations%}
+    <tr>
+        <td> {{reservation.name}}</td>
+        <td> {{reservation.check_in}}</td>
+        <td> {{reservation.check_out}}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% endfor %}
+</body>
+</html>

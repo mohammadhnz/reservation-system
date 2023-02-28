@@ -12,6 +12,6 @@ class Reservation(HistoricalBaseModel):
     )
     name = models.CharField(max_length=256)
     rooms = models.ManyToManyField(to=Room, related_name="reservations")
-    check_in = models.DateField(null=False)
-    check_out = models.DateField(null=False)
+    check_in = models.DateField(null=False, db_index=True)
+    check_out = models.DateField(null=False, db_index=True)
     status = models.CharField(max_length=30, choices=ReservationStatus, default=ReservationStatus.ACTIVE)

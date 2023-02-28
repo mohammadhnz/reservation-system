@@ -28,25 +28,25 @@ class TestRepository(TestCase):
             (
                 "WHEN_there_is_no_reservation",
                 datetime(2022, 2, 8, tzinfo=timezone.utc),
-                datetime(2021, 2, 10, tzinfo=timezone.utc),
+                datetime(2022, 2, 10, tzinfo=timezone.utc),
                 0,
             ),
             (
                 "WHEN_reservation_exists_with_same_check_in_as_check_out",
                 datetime(2022, 2, 6, tzinfo=timezone.utc),
-                datetime(2021, 2, 9, tzinfo=timezone.utc),
+                datetime(2022, 2, 9, tzinfo=timezone.utc),
                 0,
             ),
             (
                 "WHEN_reservation_exists_with_same_check_out_as_check_in",
                 datetime(2022, 2, 1, tzinfo=timezone.utc),
-                datetime(2021, 2, 3, tzinfo=timezone.utc),
+                datetime(2022, 2, 3, tzinfo=timezone.utc),
                 0,
             ),
             (
                 "WHEN_reservation_exists",
                 datetime(2022, 2, 3, tzinfo=timezone.utc),
-                datetime(2021, 2, 4, tzinfo=timezone.utc),
+                datetime(2022, 2, 4, tzinfo=timezone.utc),
                 1,
             ),
         ]
@@ -62,33 +62,31 @@ class TestRepository(TestCase):
             (
                 "WHEN_there_is_no_reservation",
                 datetime(2022, 2, 8, tzinfo=timezone.utc),
-                datetime(2021, 2, 10, tzinfo=timezone.utc),
+                datetime(2022, 2, 10, tzinfo=timezone.utc),
                 0,
             ),
             (
                 "WHEN_reservation_exists",
                 datetime(2022, 2, 3, tzinfo=timezone.utc),
-                datetime(2021, 2, 4, tzinfo=timezone.utc),
+                datetime(2022, 2, 4, tzinfo=timezone.utc),
                 1,
             ),
         ]
     )
     @freeze_time(datetime(2022, 2, 3))
-    def test_get_rooms_reservations_in_time_range(self, _, check_in, check_out, expected_count):
+    def test_get_reservations_by_room_id(self, _, check_in, check_out, expected_count):
         room = model_factories.RoomFactory.create()
         self.reservation.rooms.add(room)
 
-        self.assertEqual(
-            expected_count, repositoy.get_rooms_reservations_in_time_range([room.id], check_in, check_out).count()
-        )
+        self.assertEqual(expected_count, repositoy.get_reservations_by_room_id([room.id], check_in, check_out).count())
 
     @freeze_time(datetime(2022, 2, 3))
-    def test_get_rooms_with_reservations_in_time_range(self):
+    def test_get_rooms_with_reservations_by_room_ids(self):
 
         room = model_factories.RoomFactory.create()
         self.reservation.rooms.add(room)
-        result = repositoy.get_rooms_with_reservations_in_time_range(
-            [room.id], datetime(2022, 2, 3), datetime(2021, 2, 4)
+        result = repositoy.get_rooms_with_reservations_by_room_ids(
+            [room.id], datetime(2022, 2, 3), datetime(2022, 2, 4)
         )
         self.assertEqual(1, result.count())
         self.assertEqual(1, result.first().reservations.count())

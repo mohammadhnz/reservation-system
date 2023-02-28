@@ -5,34 +5,34 @@ from django.utils import timezone
 from freezegun import freeze_time
 from parameterized import parameterized
 
-from listing.services import rooms_availability
+from listing.services import report_services
 from listing.tests import model_factories
 
 
-class TestRoomsAvailability(TestCase):
+class TestReport(TestCase):
     @parameterized.expand(
         [
             (
-                "WHEN_all_rooms_are_available",
+                "WHEN_there_is_no_reservations",
                 datetime(2022, 2, 8, tzinfo=timezone.utc),
-                datetime(2022, 2, 10, tzinfo=timezone.utc),
-                [100],
+                datetime(2022, 2, 25, tzinfo=timezone.utc),
+                0,
             ),
             (
-                "WHEN_all_rooms_are_available",
-                datetime(2022, 2, 4, tzinfo=timezone.utc),
-                datetime(2022, 2, 5, tzinfo=timezone.utc),
-                [],
+                "WHEN_reservation_exists_in_time_range",
+                datetime(2022, 2, 1, tzinfo=timezone.utc),
+                datetime(2022, 2, 25, tzinfo=timezone.utc),
+                1,
             ),
         ]
     )
     @freeze_time(datetime(2022, 2, 3))
-    def test_get_available_room_ids(self, _, check_in, check_out, expected):
+    def test_get_rooms_reservation_by_time(self, _, start, end, expected):
         room = model_factories.RoomFactory(id=100)
         reservation = model_factories.ReservationFactory.create(
             check_in=datetime(2022, 2, 3), check_out=datetime(2022, 2, 6)
         )
         reservation.rooms.add(room)
 
-        result = rooms_availability.get_available_room_ids([100], check_in, check_out)
-        self.assertCountEqual(expected, result)
+        result = report_services.get_rooms_reservation_by_time(start, end)
+        self.assertEqual(expected, len(result))
