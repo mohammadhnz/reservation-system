@@ -10,6 +10,7 @@ gunicorn
 django-request-logging
 django-entangled
 django-model-utils
+django-simple-history
 python-json-logger~=2.0
 python-decouple==3.7
 sentry-sdk~=1.5.1

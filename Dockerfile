@@ -14,6 +14,7 @@ COPY requirements/base.txt .
 
 
 RUN pip install --no-cache-dir -r base.txt
+RUN adduser --disabled-password --gecos '' myuser
 
 COPY . .
 
